@@ -1,25 +1,26 @@
+//importing from libraries
 import express from 'express';
-import taskRoutes from './routes/tasks.js';
+
 import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+import taskRoutes from './routes/tasks.js';
+//declares the express function as app
 const app = express();
 
-app.use(express.static('public'));
+//tells the app to read it in ejs
+app.set('view engine', 'ejs');
+
+//tells the app which file to read
+app.set('views', './views');
+
+//tells the app to use express.json
 app.use(express.json());
 
-// Set the view engine to EJS
-app.set("view engine", 'ejs');
+//tells the app to use the static folder
+app.use('/', taskRoutes);
 
-// Set the views directory
-app.set("views", path.join(__dirname, "views"));
-
-app.use('/task', taskRoutes);
-
+//consoles the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port http://localhost:${PORT}`);
+    console.log(`server is running on port http://localhost:${PORT}`);
 });
